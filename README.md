@@ -1,2 +1,0 @@
-# EjaRate
-EjaRate
