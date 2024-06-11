@@ -1,5 +1,5 @@
 const Logo = () => {
-  return <div className="font-medium">EjaRate</div>;
+  return <div className="font-semibold">EjaRate</div>;
 };
 
-export default Logo;
+export { Logo };

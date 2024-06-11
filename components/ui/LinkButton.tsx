@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-interface NextLinkProps extends React.ComponentProps<typeof Link> {
+interface LinkButtonProps extends React.ComponentProps<typeof Link> {
   ariaLabel?: string;
   children?: React.ReactNode;
   className?: string;
@@ -10,14 +10,14 @@ interface NextLinkProps extends React.ComponentProps<typeof Link> {
   title?: string;
 }
 
-const NextLink = ({
+const LinkButton = ({
   ariaLabel,
   children,
   className = "",
   newTab,
   text,
   ...props
-}: NextLinkProps) => {
+}: LinkButtonProps) => {
   return (
     <Link
       {...props}
@@ -30,4 +30,4 @@ const NextLink = ({
   );
 };
 
-export default NextLink;
+export { LinkButton };
