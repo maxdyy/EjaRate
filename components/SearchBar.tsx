@@ -1,5 +1,6 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState, useCallback } from "react";
 import { LoaderCircle } from "lucide-react";
 
 import {
@@ -11,10 +12,12 @@ import {
   CommandList,
 } from "@/components/ui/Command";
 import { useDebounce } from "@/lib/hooks";
+import { formatBuildingID } from "@/lib/utils";
 import { searchBuildings } from "@/lib/services";
 import { GooglePlace } from "@/lib/interfaces";
 
 const SearchBar = () => {
+  const { push } = useRouter();
   const [searching, setSearching] = useState<boolean>(false);
   const [searchText, setSearchText] = useState<string>("");
   const [searchResults, setSearchResults] = useState<GooglePlace[]>([]);
@@ -22,6 +25,14 @@ const SearchBar = () => {
   const handleValueChange = (val: string) => {
     setSearchText(val);
   };
+
+  const handleRedirectToBuildingPage = useCallback(
+    (buildingName: string) => {
+      const buildingID = formatBuildingID(buildingName);
+      push(`/building/${buildingID}`);
+    },
+    [push]
+  );
 
   // Handle the UI state when the search text changes
   useEffect(() => {
@@ -68,11 +79,18 @@ const SearchBar = () => {
           {/* When we have search results */}
           {!searching && searchResults.length > 0 && (
             <CommandGroup heading="Suggestions">
-              {searchResults.map((result, index) => (
-                <CommandItem key={`${result.displayName.text}-${index}`} className="cursor-pointer">
-                  <span>{result.displayName.text}</span>
-                </CommandItem>
-              ))}
+              {searchResults.map((result, index) => {
+                const buildingName = result.displayName.text;
+                return (
+                  <CommandItem
+                    key={`${buildingName}-${index}`}
+                    className="cursor-pointer"
+                    onSelect={() => handleRedirectToBuildingPage(buildingName)}
+                  >
+                    <span>{buildingName}</span>
+                  </CommandItem>
+                );
+              })}
             </CommandGroup>
           )}
         </CommandList>
