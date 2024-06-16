@@ -17,7 +17,7 @@ const Footer = () => {
           . The source code is available on
           <LinkButton
             className="pl-1 underline hover:text-slate-900"
-            href="https://github.com"
+            href="https://github.com/maxdyy/EjaRate"
             target="_blank"
             rel="noreferrer"
           >

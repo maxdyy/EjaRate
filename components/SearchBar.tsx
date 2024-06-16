@@ -12,11 +12,12 @@ import {
 } from "@/components/ui/Command";
 import { useDebounce } from "@/lib/hooks";
 import { searchBuildings } from "@/lib/services";
+import { GooglePlace } from "@/lib/interfaces";
 
 const SearchBar = () => {
   const [searching, setSearching] = useState<boolean>(false);
   const [searchText, setSearchText] = useState<string>("");
-  const [searchResults, setSearchResults] = useState<string[]>([]);
+  const [searchResults, setSearchResults] = useState<GooglePlace[]>([]);
 
   const handleValueChange = (val: string) => {
     setSearchText(val);
@@ -33,12 +34,11 @@ const SearchBar = () => {
   }, [searchText]);
 
   // Use the debounced search text to avoid making too many API requests
-  const debouncedSearchText = useDebounce(searchText, 200);
+  const debouncedSearchText = useDebounce(searchText, 333);
   useEffect(() => {
     if (debouncedSearchText) {
       setSearching(true);
       searchBuildings(debouncedSearchText).then((results) => {
-        console.log("Search results:", results);
         setSearchResults(results);
         setSearching(false);
       });
@@ -68,9 +68,9 @@ const SearchBar = () => {
           {/* When we have search results */}
           {!searching && searchResults.length > 0 && (
             <CommandGroup heading="Suggestions">
-              {searchResults.map((result) => (
-                <CommandItem key={result}>
-                  <span>{result}</span>
+              {searchResults.map((result, index) => (
+                <CommandItem key={`${result.displayName.text}-${index}`} className="cursor-pointer">
+                  <span>{result.displayName.text}</span>
                 </CommandItem>
               ))}
             </CommandGroup>
