@@ -57,7 +57,7 @@ export default function BuildingPage({ params }: { params: { id: string } }) {
         <div className="pt-40 text-center">
           <h1 className="text-2xl font-semibold">{buildingData.name}</h1>
           <p>{buildingData.address}</p>
-          <p className="pt-2">
+          <p className="pt-5 text-lg font-semibold">
             Average Review:{" "}
             {generateBuildingAverageRating(buildingData.reviews)}/5
           </p>
