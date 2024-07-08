@@ -7,7 +7,6 @@ import { createClientServer } from "@/lib/supabase";
 export const googleAuthAction = async () => {
   const origin = headers().get("origin") || "https://ejarate.org";
   const supabase = createClientServer();
-  console.log({ origin });
 
   const { error, data } = await supabase.auth.signInWithOAuth({
     provider: "google",
@@ -23,6 +22,24 @@ export const googleAuthAction = async () => {
   }
 };
 
-export const emailAuthAction = async () => {
-  console.log('email auth');
+export const emailAuthAction = async (formData: FormData) => {
+  const email = formData.get("email");
+  const origin = headers().get("origin") || "https://ejarate.org";
+  const supabase = createClientServer();
+
+  if (email) {
+    const { error } = await supabase.auth.signInWithOtp({
+      email: `${email}`,
+      options: {
+        shouldCreateUser: true,
+        emailRedirectTo: `${origin}/api/signin`,
+      },
+    });
+
+    if (error) {
+      console.error("Error signing in with email", error);
+    }
+  } else {
+    console.error("Email is required");
+  }
 };
