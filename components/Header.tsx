@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Logo } from "@/components/ui/icons/Logo";
-import { SignInButton } from "./ui/SignInButton";
+import { SignInAvatar } from "./ui/SignInAvatar";
 
 const Header = () => {
   return (
@@ -10,7 +10,7 @@ const Header = () => {
           <Logo />
         </Link>
         <div>
-          <SignInButton />
+          <SignInAvatar />
         </div>
       </div>
     </header>

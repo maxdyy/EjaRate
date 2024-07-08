@@ -1,11 +1,23 @@
+import { redirect } from "next/navigation";
+
 import { Card, CardContent } from "@/components/ui/Card";
 import { GoogleAuthButton } from "@/components/ui/GoogleAuthButton";
 import { Separator } from "@/components/ui/Separator";
 import { EmailAuth } from "@/components/ui/EmailAuth";
 
+import { createClientServer } from "@/lib/supabase";
 import { googleAuthAction, emailAuthAction } from "@/app/signin/actions";
 
-export default function LoginPage() {
+export default async function LoginPage() {
+  const supabase = createClientServer();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (user) {
+    return redirect("/");
+  }
+
   return (
     <div className="flex flex-col justify-center items-center pt-32 lg:pt-64 px-4">
       <div className="w-full max-w-[380px]">
