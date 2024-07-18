@@ -1,6 +1,5 @@
 "use client";
-import { useRouter } from "next/navigation";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { LoaderCircle } from "lucide-react";
 
 import {
@@ -12,12 +11,14 @@ import {
   CommandList,
 } from "@/components/ui/Command";
 import { useDebounce } from "@/lib/hooks";
-import { formatBuildingID } from "@/lib/utils";
 import { searchBuildings } from "@/lib/services";
 import { GooglePlace } from "@/lib/interfaces";
 
-const SearchBar = () => {
-  const { push } = useRouter();
+interface SearchBuildingProps {
+  onResultSelect: (buildingName: string, buildingAddress: string) => void;
+}
+
+const SearchBuilding = ({ onResultSelect }: SearchBuildingProps) => {
   const [searching, setSearching] = useState<boolean>(false);
   const [searchText, setSearchText] = useState<string>("");
   const [searchResults, setSearchResults] = useState<GooglePlace[]>([]);
@@ -25,14 +26,6 @@ const SearchBar = () => {
   const handleValueChange = (val: string) => {
     setSearchText(val);
   };
-
-  const handleRedirectToBuildingPage = useCallback(
-    (buildingName: string) => {
-      const buildingID = formatBuildingID(buildingName);
-      push(`/building/${buildingID}`);
-    },
-    [push]
-  );
 
   // Handle the UI state when the search text changes
   useEffect(() => {
@@ -81,11 +74,14 @@ const SearchBar = () => {
             <CommandGroup heading="Suggestions">
               {searchResults.map((result, index) => {
                 const buildingName = result.displayName.text;
+                const buildingAddress = result.formattedAddress;
                 return (
                   <CommandItem
                     key={`${buildingName}-${index}`}
                     className="cursor-pointer"
-                    onSelect={() => handleRedirectToBuildingPage(buildingName)}
+                    onSelect={() =>
+                      onResultSelect(buildingName, buildingAddress)
+                    }
                   >
                     <span>{buildingName}</span>
                   </CommandItem>
@@ -99,4 +95,4 @@ const SearchBar = () => {
   );
 };
 
-export default SearchBar;
+export { SearchBuilding };

@@ -8,7 +8,7 @@ import { EmailAuth } from "@/components/ui/EmailAuth";
 import { createClientServer } from "@/lib/supabase";
 import { googleAuthAction, emailAuthAction } from "@/app/signin/actions";
 
-export default async function LoginPage() {
+export default async function SignInPage() {
   const supabase = createClientServer();
   const {
     data: { user },
