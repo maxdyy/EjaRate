@@ -3,6 +3,7 @@ import { useState, useCallback } from "react";
 
 import { SearchBuilding } from "@/components/SearchBuilding";
 import { Input } from "@/components/ui/Input";
+import { ReviewToggle } from "@/components/ui/ReviewToggle";
 
 interface ReviewFormProps {
   action: (formData: FormData) => void;
@@ -42,12 +43,39 @@ const ReviewForm = ({
           {/* <p className="pt-4 text-gray-600 text-sm">
             Please make sure all the information matches your Ejari contract.
           </p> */}
-          <p className="pt-8 pb-2 text-sm">
-            Please fill in the details
+          <p className="pt-8 pb-2 text-sm text-gray-700 font-semibold">
+            Please fill in the review details
           </p>
-          <div className="flex">
-            <Input className="mr-2" id="apartment-number" placeholder="Apartment Number" />
-            <Input className="ml-2" id="rent-amount" placeholder="Rent Amount AED/Year (Optional)" />
+          <div className="flex w-full">
+            <div className="w-1/2 pr-2">
+              <Input
+                id="apartment-number"
+                placeholder="Apartment Number"
+              />
+            </div>
+            <div className="w-1/2 pl-2">
+              <Input
+                id="rent-amount"
+                type="number"
+                placeholder="Rent Amount AED/Year (Optional)"
+              />
+            </div>
+          </div>
+          <div className="pt-6 flex">
+            <div className="w-1/2 pr-2">
+              <ReviewToggle
+                label="Building Quality"
+                subtitle="Overall quality of the building"
+                onValueChange={(value) => console.log(value)}
+              />
+            </div>
+            <div className="w-1/2 pl-2">
+              <ReviewToggle
+                label="Apartment Quality"
+                subtitle="Overall quality of the apartment"
+                onValueChange={(value) => console.log(value)}
+              />
+            </div>
           </div>
         </div>
       ) : (
