@@ -23,4 +23,14 @@ const Label = React.forwardRef<
 ));
 Label.displayName = LabelPrimitive.Root.displayName;
 
-export { Label };
+interface StateFullLabelProps {
+  children: string | React.ReactNode;
+  hasError?: boolean;
+}
+
+const StateFullLabel = ({ children, hasError }: StateFullLabelProps) => (
+  <Label className={hasError ? "text-red-700" : ""}>{children}</Label>
+);
+StateFullLabel.displayName = "StateFullLabel";
+
+export { Label, StateFullLabel };

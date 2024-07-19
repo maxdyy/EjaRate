@@ -1,20 +1,22 @@
-import { Label } from "@/components/ui/Label";
+import { StateFullLabel } from "@/components/ui/Label";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/ToggleGroup";
 
 interface ReviewToggleProps {
   label: string;
   subtitle?: string;
   onValueChange: (value: string) => void;
+  hasError?: boolean;
 }
 
 const ReviewToggle = ({
   label,
   subtitle,
   onValueChange,
+  hasError,
 }: ReviewToggleProps) => {
   return (
     <div>
-      <Label>{label}</Label>
+      <StateFullLabel hasError={hasError}>{label}</StateFullLabel>
       {subtitle && <p className="text-sm text-gray-500">{subtitle}</p>}
       <div className="flex pt-2">
         <ToggleGroup

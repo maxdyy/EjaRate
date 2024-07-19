@@ -31,7 +31,7 @@ export default function RootLayout({
         )}
       >
         <Header />
-        <main className="h-[calc(100vh-128px)] lg:h-[calc(100vh-110px)]">
+        <main className="min-h-[calc(100vh-128px)] lg:min-h-[calc(100vh-110px)]">
           {children}
         </main>
         <Footer />
