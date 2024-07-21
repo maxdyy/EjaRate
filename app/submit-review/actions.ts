@@ -5,6 +5,7 @@ import { supabase } from "@/lib/supabase";
 
 export interface ReviewActionProps {
   selectedBuilding: string | null;
+  selectedBuildingAddress: string | null;
   apartmentNumber: string | null;
   rentAmount: string | null;
   buildingQuality: string | null;
@@ -18,6 +19,7 @@ export interface ReviewActionProps {
 
 export const submitReviewAction = async ({
   selectedBuilding,
+  selectedBuildingAddress,
   apartmentNumber,
   rentAmount,
   buildingQuality,
@@ -54,6 +56,7 @@ export const submitReviewAction = async ({
     agency_name?: string | null
     apartment_number?: number | null
     apartment_quality?: number | null
+    building_address: string | null
     building_id?: string | null
     building_name?: string | null
     building_quality?: number | null
@@ -66,6 +69,7 @@ export const submitReviewAction = async ({
   const agency_name = agencyName || null;
   const apartment_number = parseInt(apartmentNumber) || null;
   const apartment_quality = parseInt(apartmentQuality) || null;
+  const building_address = selectedBuildingAddress || null;
   const building_id = formatBuildingID(selectedBuilding) || null;
   const building_name = selectedBuilding || null;
   const building_quality = parseInt(buildingQuality) || null;
@@ -75,17 +79,18 @@ export const submitReviewAction = async ({
 
   // Now we will insert the review data into the database
   const { error } = await supabase.from("reviews").insert({
+    additional_notes,
+    agency_experience,
+    agency_name,
+    apartment_number,
+    apartment_quality,
+    building_address,
     building_id,
     building_name,
     building_quality,
-    apartment_number,
-    apartment_quality,
-    rent_amount,
-    agency_name,
-    agency_experience,
-    ejari_contract_number,
     dewa_premise_number,
-    additional_notes,
+    ejari_contract_number,
+    rent_amount,
   });
 
   // If there is an error, we will log the error and redirect to the error page
@@ -93,7 +98,7 @@ export const submitReviewAction = async ({
     console.error("Error inserting review", error);
     const errorMessage =
       "#error_description=Error+submitting+review.+Please+try+again.";
-    return redirect(`/error$${errorMessage}`);
+    return redirect(`/error${errorMessage}`);
   } else {
     // If the review was inserted successfully, we will redirect to the
     // success page with the success message

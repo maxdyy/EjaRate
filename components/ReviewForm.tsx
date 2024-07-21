@@ -14,7 +14,6 @@ import { useToast } from "@/lib/hooks";
 interface ReviewFormProps {
   action: (data: ReviewActionProps) => void;
   preselectedBuilding?: string;
-  preselectedBuildingAddress?: string;
 }
 
 const ReviewForm = ({
@@ -133,6 +132,7 @@ const ReviewForm = ({
     if (isFormValid) {
       action({
         selectedBuilding,
+        selectedBuildingAddress,
         apartmentNumber,
         rentAmount,
         buildingQuality,
