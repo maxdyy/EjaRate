@@ -3,21 +3,16 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/Card";
-import { BuildingData } from "@/lib/interfaces";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
+import { BuildingReviewsData } from "@/lib/interfaces";
 import { getBuildingData } from "@/lib/services";
-import { formatBuildingName, generateBuildingAverageRating } from "@/lib/utils";
+import { formatBuildingName } from "@/lib/utils";
 
 export default function BuildingPage({ params }: { params: { id: string } }) {
   const [searching, setSearching] = useState<boolean>(true);
-  const [buildingData, setBuildingData] = useState<BuildingData | null>(null);
+  const [buildingData, setBuildingData] = useState<BuildingReviewsData | null>(
+    null
+  );
 
   useEffect(() => {
     const fetchBuildingData = async () => {
@@ -55,24 +50,9 @@ export default function BuildingPage({ params }: { params: { id: string } }) {
 
       {buildingData && !searching && (
         <div className="pt-40 text-center">
-          <h1 className="text-2xl font-semibold">{buildingData.name}</h1>
-          <p>{buildingData.address}</p>
-          <p className="pt-5 text-lg font-semibold">
-            Average Review:{" "}
-            {generateBuildingAverageRating(buildingData.reviews)}/5
-          </p>
-          <div className="pt-5 flex">
-            {buildingData.reviews.map((review, index) => (
-              <Card key={review.id} className="m-2">
-                <CardHeader>
-                  <CardTitle>Rate: {review.rating}/5</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p>{review.review}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+          <h1 className="text-2xl font-semibold"></h1>
+          <p className="pt-5 text-lg font-semibold">Average Review: </p>
+          <div className="pt-5 flex"></div>
         </div>
       )}
     </main>

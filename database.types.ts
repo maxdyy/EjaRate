@@ -16,6 +16,7 @@ export type Database = {
           agency_name: string | null
           apartment_number: number | null
           apartment_quality: number | null
+          building_address: string | null
           building_id: string | null
           building_name: string | null
           building_quality: number | null
@@ -23,6 +24,7 @@ export type Database = {
           dewa_premise_number: string | null
           ejari_contract_number: string | null
           id: string
+          is_approved: boolean | null
           rent_amount: number | null
         }
         Insert: {
@@ -31,6 +33,7 @@ export type Database = {
           agency_name?: string | null
           apartment_number?: number | null
           apartment_quality?: number | null
+          building_address?: string | null
           building_id?: string | null
           building_name?: string | null
           building_quality?: number | null
@@ -38,6 +41,7 @@ export type Database = {
           dewa_premise_number?: string | null
           ejari_contract_number?: string | null
           id?: string
+          is_approved?: boolean | null
           rent_amount?: number | null
         }
         Update: {
@@ -46,6 +50,7 @@ export type Database = {
           agency_name?: string | null
           apartment_number?: number | null
           apartment_quality?: number | null
+          building_address?: string | null
           building_id?: string | null
           building_name?: string | null
           building_quality?: number | null
@@ -53,6 +58,7 @@ export type Database = {
           dewa_premise_number?: string | null
           ejari_contract_number?: string | null
           id?: string
+          is_approved?: boolean | null
           rent_amount?: number | null
         }
         Relationships: []

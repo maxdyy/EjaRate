@@ -1,17 +1,26 @@
 import { NextRequest } from "next/server";
-
-import { buildingsDB } from "@/lib/db";
-import { BuildingData } from "@/lib/interfaces";
+import { supabase } from "@/lib/supabase";
 
 export async function GET(req: NextRequest) {
   // Get the id query parameter from the URL
   const searchID = req.nextUrl.searchParams.get("id");
 
-  // Find the building data from the database
-  const buildingData =
-    (buildingsDB.find(
-      (building) => building.id === searchID
-    ) as BuildingData) || null;
+  // Now that we have the ID, we can query the database for the building data
+  if (searchID) {
+    const { data, error } = await supabase
+      .from("reviews")
+      .select("*")
+      .eq("building_id", searchID)
+      .eq("is_approved", true);
 
-  return Response.json({ buildingData });
+    if (error) {
+      console.error(error);
+      return Response.json({
+        buildingData: [],
+        error: "Error fetching building data",
+      });
+    } else {
+      return Response.json({ buildingData: data });
+    }
+  }
 }

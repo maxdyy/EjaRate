@@ -35,7 +35,7 @@ export default function Home() {
         <Separator className="shrink grow" />
       </div>
       <div>
-        <LinkButton href="/review" className="underline">
+        <LinkButton href="/submit-review" className="underline">
           New Review
         </LinkButton>
       </div>

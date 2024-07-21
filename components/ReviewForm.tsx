@@ -1,7 +1,7 @@
 "use client";
 import { useState, useCallback, useMemo } from "react";
 
-import { ReviewActionProps } from "@/app/review/actions";
+import { ReviewActionProps } from "@/app/submit-review/actions";
 import { SearchBuilding } from "@/components/SearchBuilding";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
@@ -20,7 +20,6 @@ interface ReviewFormProps {
 const ReviewForm = ({
   action,
   preselectedBuilding,
-  preselectedBuildingAddress,
 }: ReviewFormProps) => {
   const { toast } = useToast();
 
