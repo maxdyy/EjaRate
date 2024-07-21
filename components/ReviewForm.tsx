@@ -1,6 +1,7 @@
 "use client";
 import { useState, useCallback, useMemo } from "react";
 
+import { ReviewActionProps } from "@/app/review/actions";
 import { SearchBuilding } from "@/components/SearchBuilding";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
@@ -8,8 +9,10 @@ import { ReviewToggle } from "@/components/ui/ReviewToggle";
 import { StateFullLabel } from "@/components/ui/Label";
 import { Button } from "@/components/ui/Button";
 
+import { useToast } from "@/lib/hooks";
+
 interface ReviewFormProps {
-  action: (formData: FormData) => void;
+  action: (data: ReviewActionProps) => void;
   preselectedBuilding?: string;
   preselectedBuildingAddress?: string;
 }
@@ -19,6 +22,8 @@ const ReviewForm = ({
   preselectedBuilding,
   preselectedBuildingAddress,
 }: ReviewFormProps) => {
+  const { toast } = useToast();
+
   const [selectedBuilding, setSelectedBuilding] = useState<string | null>(null);
   const [selectedBuildingAddress, setSelectedBuildingAddress] = useState<
     string | null
@@ -117,23 +122,30 @@ const ReviewForm = ({
     dewaPremiseNumberError,
   ]);
 
-  const handleSubmit = () => {
-    if (isFormValid) {
-      // Generate new FormData object with the form values
-      const formData = new FormData();
-      formData.append("selectedBuilding", selectedBuilding as string);
-      formData.append("selectedBuildingAddress", selectedBuildingAddress as string);
-      formData.append("apartmentNumber", apartmentNumber as string);
-      formData.append("rentAmount", rentAmount as string);
-      formData.append("buildingQuality", buildingQuality as string);
-      formData.append("apartmentQuality", apartmentQuality as string);
-      formData.append("agencyName", agencyName as string);
-      formData.append("agencyExperience", agencyExperience as string);
-      formData.append("ejariContractNumber", ejariContractNumber as string);
-      formData.append("dewaPremiseNumber", dewaPremiseNumber as string);
-      formData.append("additionalNotes", additionalNotes as string);
+  const generateErrorToast = (message: string) => {
+    toast({
+      title: "Form Error",
+      description: message,
+      variant: "destructive",
+    });
+  };
 
-      action(formData);
+  const handleSubmit = async () => {
+    if (isFormValid) {
+      action({
+        selectedBuilding,
+        apartmentNumber,
+        rentAmount,
+        buildingQuality,
+        apartmentQuality,
+        agencyName,
+        agencyExperience,
+        ejariContractNumber,
+        dewaPremiseNumber,
+        additionalNotes,
+      });
+    } else {
+      generateErrorToast("Please fill out all required fields");
     }
   };
 
