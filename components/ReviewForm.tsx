@@ -157,13 +157,13 @@ const ReviewForm = ({
       }}
       className="flex flex-col justify-center items-center px-4"
     >
-      {!selectedBuilding && !selectedBuildingAddress ? (
+      {selectedBuilding && selectedBuildingAddress ? (
         <div className="pt-20 max-w-[750px] w-full">
           <h1 className="text-2xl font-semibold text-center">
             {selectedBuilding}
           </h1>
           <p className="text-center">{selectedBuildingAddress}</p>
-          <div className="flex w-full">
+          <div className="flex w-full pt-6">
             <div className="w-1/2 pr-6">
               <StateFullLabel hasError={apartmentNumberError}>
                 Apartment Number*

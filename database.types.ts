@@ -16,7 +16,6 @@ export type Database = {
           agency_name: string | null
           apartment_number: number | null
           apartment_quality: number | null
-          building_address: string | null
           building_id: string | null
           building_name: string | null
           building_quality: number | null
@@ -32,7 +31,6 @@ export type Database = {
           agency_name?: string | null
           apartment_number?: number | null
           apartment_quality?: number | null
-          building_address?: string | null
           building_id?: string | null
           building_name?: string | null
           building_quality?: number | null
@@ -48,7 +46,6 @@ export type Database = {
           agency_name?: string | null
           apartment_number?: number | null
           apartment_quality?: number | null
-          building_address?: string | null
           building_id?: string | null
           building_name?: string | null
           building_quality?: number | null
