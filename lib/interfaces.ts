@@ -6,15 +6,20 @@ export interface GooglePlace {
   };
 }
 
-export interface BuildingReviewData {
+export interface BuildingReviewsData {
+  additional_notes: string | null;
+  agency_experience: number | null;
+  agency_name: string | null;
+  apartment_number: number | null;
+  apartment_quality: number | null;
+  building_address: string | null;
+  building_id: string | null;
+  building_name: string | null;
+  building_quality: number | null;
+  created_at: string;
+  dewa_premise_number: string | null;
+  ejari_contract_number: string | null;
   id: string;
-  rating: number;
-  review: string;
-}
-
-export interface BuildingData {
-  id: string;
-  name: string;
-  address: string;
-  reviews: BuildingReviewData[];
+  is_approved: boolean | null;
+  rent_amount: number | null;
 }

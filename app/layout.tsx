@@ -6,6 +6,7 @@ import "./globals.css";
 // Components
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { Toaster } from "@/components/ui/Toaster";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -31,10 +32,11 @@ export default function RootLayout({
         )}
       >
         <Header />
-        <main className="h-[calc(100vh-128px)] lg:h-[calc(100vh-110px)]">
+        <main className="min-h-[calc(100vh-128px)] lg:min-h-[calc(100vh-110px)]">
           {children}
         </main>
         <Footer />
+        <Toaster />
       </body>
     </html>
   );

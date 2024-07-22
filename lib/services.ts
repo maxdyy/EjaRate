@@ -9,3 +9,8 @@ export const getBuildingData = async (id: string) => {
   const { data } = await axios.get(`/api/building?id=${id}`);
   return data.buildingData;
 }
+
+export const getReviewData = async (id: string) => {
+  const { data } = await axios.get(`/api/review?id=${id}`);
+  return data.reviewData;
+}
