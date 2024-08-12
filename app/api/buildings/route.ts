@@ -37,7 +37,7 @@ export async function GET(req: NextRequest) {
     // displayName.text field in the GooglePlace type object
     const uniquePlaces = new Map<string, GooglePlace>();
     places.forEach((place) => {
-      uniquePlaces.set(place.displayName.text, place);
+      uniquePlaces.set(place?.displayName?.text, place);
     });
 
     return Response.json({ buildings: Array.from(uniquePlaces.values()) });

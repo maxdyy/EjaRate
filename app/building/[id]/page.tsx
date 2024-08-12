@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/Button";
 import { Separator } from "@/components/ui/Separator";
 import { BuildingReviewsData } from "@/lib/interfaces";
 import { getBuildingData } from "@/lib/services";
-import { formatBuildingName } from "@/lib/utils";
+import { formatBuildingName, intToAED } from "@/lib/utils";
 
 export default function BuildingPage({ params }: { params: { id: string } }) {
   const [searching, setSearching] = useState<boolean>(true);
@@ -73,52 +73,82 @@ export default function BuildingPage({ params }: { params: { id: string } }) {
       )}
 
       {buildingData && !searching && (
-        <div className="pt-40 text-center w-full max-w-[850px]">
-          <h1 className="text-2xl font-semibold">{buildingName}</h1>
-          <p className="pt-2 text-lg">{buildingAddress}</p>
-          <div className="flex w-full justify-between">
-            <p className="pt-5 text-lg font-semibold">
-              Total Reviews: {totalReviews}
-            </p>
-            <p className="pt-5 text-lg font-semibold">
-              Average Review: {averageReview}
-            </p>
-            <p className="pt-5 text-lg font-semibold">
-              Average Apartment Review: {apartmentAverage}
-            </p>
+        <div className="pt-20 text-center w-full max-w-[850px] px-2">
+          <h1 className="text-lg lg:text-2xl font-semibold">{buildingName}</h1>
+          <p className="pt-2 text-sm lg:text-lg">{buildingAddress}</p>
+          {/* Summary of stats */}
+          <div className="border rounded-lg p-6 pt-4 mt-4 bg-gray-200 md:mx-2">
+            <div className="w-full flex justify-center items-center">
+              <div className="w-1/3 text-sm flex flex-col">
+                <span>{totalReviews}</span>
+                <span>Reviews</span>
+              </div>
+              <div className="w-[1px] bg-white h-[30px] rounded-lg" />
+              <div className="w-1/3 text-sm flex flex-col">
+                <span>{averageReview}/5</span>
+                <span>Average</span>
+              </div>
+              <div className="w-[1px] bg-white h-[30px] rounded-lg" />
+              <div className="w-1/3 text-sm flex flex-col">
+                <span>{apartmentAverage}/5</span>
+                <span>Apt. Average</span>
+              </div>
+            </div>
+            <div className="pt-6">
+              <Button size="sm" className="w-full">
+                <Link href={`/review`}>Write a Review</Link>
+              </Button>
+            </div>
           </div>
-          <div className="pt-12 flex">
-            {buildingData.map((review: BuildingReviewsData) => (
-              <div key={review.id} className="w-1/3 p-2">
+          <div className="py-12 flex flex-wrap">
+            {[...buildingData, ...buildingData, ...buildingData].map((review: BuildingReviewsData) => (
+              <div key={review.id} className="w-full pb-2 md:w-1/2 md:px-2 md:pb-4">
                 <Card>
                   <CardContent className="text-left pt-4">
-                    <p>
-                      <span className="font-semibold">Building Quality:</span>{" "}
-                      {review.building_quality}
-                    </p>
-                    <p>
-                      <span className="font-semibold">Apartment Quality:</span>{" "}
-                      {review.apartment_quality}
-                    </p>
-                    <div className="py-2">
+                    <div className="flex justify-center items-center">
+                      <div className="w-1/2 text-sm flex flex-col text-center">
+                        <span className="font-semibold">
+                          {review.apartment_quality}/5
+                        </span>
+                        <span className="font-semibold">Apartment Quality</span>
+                      </div>
+                      <div className="w-[1px] bg-white h-[30px] rounded-lg" />
+                      <div className="w-1/2 text-sm flex flex-col text-center">
+                        <span className="font-semibold">
+                          {review.building_quality}/5
+                        </span>
+                        <span className="font-semibold">Building Quality</span>
+                      </div>
+                    </div>
+                    <div className="pt-4 pb-6">
                       <Separator />
                     </div>
-                    <div>
+                    <div className="flex flex-col justify-between">
                       {review.rent_amount && (
-                        <p>Rent Amount: {review.rent_amount}</p>
+                        <div className="flex justify-between pb-1">
+                          <span className="font-semibold text-sm">
+                            Rent Amount
+                          </span>
+                          <span className="text-sm">
+                            {intToAED.format(review.rent_amount)}
+                          </span>
+                        </div>
                       )}
                       {review.agency_name && (
-                        <p>Agency Name: {review.agency_name}</p>
+                        <div className="flex justify-between pb-1">
+                          <span className="font-semibold text-sm">Agency</span>
+                          <span className="text-sm">{review.agency_name}</span>
+                        </div>
                       )}
                       {review.agency_experience && (
-                        <p>Agency Experience: {review.agency_experience}</p>
+                        <div className="flex justify-between pb-1">
+                          <span className="font-semibold text-sm">Agency Experience</span>
+                          <span className="text-sm">{review.agency_experience}/5</span>
+                        </div>
                       )}
-                      <div className="pt-2">
-                        <Separator />
-                      </div>
-                      <div className="pt-4 text-center">
+                      <div className="pt-6 text-center">
                         <Button size="sm" className="w-full">
-                          <Link href={`/review/${review.id}`}>View Review</Link>
+                          <Link href={`/review/${review.id}`}>Read More</Link>
                         </Button>
                       </div>
                     </div>

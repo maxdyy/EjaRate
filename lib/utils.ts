@@ -13,3 +13,8 @@ export const formatBuildingName = (id: string) =>
     .split("-")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
+
+export const intToAED = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "AED",
+});
