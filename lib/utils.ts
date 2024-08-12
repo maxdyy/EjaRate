@@ -18,3 +18,13 @@ export const intToAED = new Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "AED",
 });
+
+// Postgress timestamp to date
+export const psTimeStampToDate = (timestamp: string) => {
+  const date = new Date(timestamp.replace(" ", "T"));
+  return new Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  }).format(date);
+};

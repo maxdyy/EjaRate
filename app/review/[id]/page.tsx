@@ -2,10 +2,12 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { Card, CardContent } from "@/components/ui/Card";
 import { Separator } from "@/components/ui/Separator";
 
 import { BuildingReviewsData } from "@/lib/interfaces";
 import { getReviewData } from "@/lib/services";
+import { intToAED, psTimeStampToDate } from "@/lib/utils";
 
 export default function ReviewPage({ params }: { params: { id: string } }) {
   const [searching, setSearching] = useState<boolean>(true);
@@ -46,58 +48,94 @@ export default function ReviewPage({ params }: { params: { id: string } }) {
       )}
 
       {reviewData && !searching && (
-        <div className="pt-40 text-center w-full max-w-[850px]">
-          <h1 className="text-2xl font-semibold">{reviewData.building_name}</h1>
-          <p className="text-lg pb-6">{reviewData.building_address}</p>
-          <div className="border p-6 rounded-md">
-            {reviewData.building_quality && (
-              <p className="font-semibold pb-2">
-                Building Quality: {reviewData.building_quality} / 5
-              </p>
-            )}
-            {reviewData.apartment_quality && (
-              <p className="font-semibold pb-2">
-                Apartment Quality: {reviewData.apartment_quality} / 5
-              </p>
-            )}
-            <div className="py-2">
-              <Separator />
+        <div className="pt-20 text-center w-full max-w-[850px] px-2">
+          <h1 className="text-lg lg:text-2xl font-semibold">
+            {reviewData.building_name}
+          </h1>
+          <p className="pt-2 text-sm lg:text-lg">
+            {reviewData.building_address}
+          </p>
+          <div className="border rounded-lg p-6 pt-4 mt-4 bg-gray-200 md:mx-2">
+            <div className="w-full flex justify-center items-center">
+              <div className="w-1/2 text-sm flex flex-col font-semibold">
+                <span>{reviewData.apartment_quality}/5</span>
+                <span>Apartment Quality</span>
+              </div>
+              <div className="w-[1px] bg-white h-[30px] rounded-lg" />
+              <div className="w-1/2 text-sm flex flex-col font-semibold">
+                <span>{reviewData.building_quality}/5</span>
+                <span>Building Quality</span>
+              </div>
             </div>
-            <div>
-              {reviewData.apartment_number && (
-                <p className="pb-2">
-                  Apartment Number: {reviewData.apartment_number}
-                </p>
-              )}
-              {reviewData.rent_amount && (
-                <p className="pb-2">
-                  Rent Amount: {reviewData.rent_amount} AED/Year
-                </p>
-              )}
-            </div>
-            <div className="py-2">
-              <Separator />
-            </div>
-            <div>
-              {reviewData.agency_name && (
-                <p className="pb-2">Agency Name: {reviewData.agency_name}</p>
-              )}
-              {reviewData.agency_experience && (
-                <p className="pb-2">
-                  Agency Experience: {reviewData.agency_experience} / 5
-                </p>
-              )}
-            </div>
-            <div className="py-2">
-              <Separator />
-            </div>
-            <div>
-              {reviewData.additional_notes && (
-                <p className="pb-2">
-                  Additional Notes: {reviewData.additional_notes}
-                </p>
-              )}
-            </div>
+          </div>
+          <div className="w-full pt-4 pb-12 md:px-2 flex flex-wrap">
+            <Card className="w-full">
+              <CardContent className="pt-4">
+                <div className="flex flex-col justify-between">
+                  {reviewData.created_at && (
+                    <div className="flex justify-between pb-1">
+                      <span className="font-semibold text-sm">Review Date</span>
+                      <span className="text-sm">
+                        {psTimeStampToDate(reviewData.created_at)}
+                      </span>
+                    </div>
+                  )}
+                  <div className="py-4">
+                    <Separator />
+                  </div>
+                  {reviewData.apartment_number && (
+                    <div className="flex justify-between pb-1">
+                      <span className="font-semibold text-sm">
+                        Apartment Number
+                      </span>
+                      <span className="text-sm">
+                        {reviewData.apartment_number}
+                      </span>
+                    </div>
+                  )}
+                  {reviewData.rent_amount && (
+                    <div className="flex justify-between pb-1">
+                      <span className="font-semibold text-sm">Rent Amount</span>
+                      <span className="text-sm">
+                        {intToAED.format(reviewData.rent_amount)}
+                      </span>
+                    </div>
+                  )}
+                  <div className="py-4">
+                    <Separator />
+                  </div>
+                  {reviewData.agency_name && (
+                    <div className="flex justify-between pb-1">
+                      <span className="font-semibold text-sm">Agency Name</span>
+                      <span className="text-sm">{reviewData.agency_name}</span>
+                    </div>
+                  )}
+                  {reviewData.agency_experience && (
+                    <div className="flex justify-between pb-1">
+                      <span className="font-semibold text-sm">
+                        Agency Experience
+                      </span>
+                      <span className="text-sm">
+                        {reviewData.agency_experience}/5
+                      </span>
+                    </div>
+                  )}
+                  {reviewData.additional_notes && (
+                    <>
+                      <div className="py-4">
+                        <Separator />
+                      </div>
+                      <div className="flex flex-col items-start">
+                        <span className="text-sm font-semibold pb-2">
+                          Notes
+                        </span>
+                        <p className="text-sm">{reviewData.additional_notes}</p>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
       )}

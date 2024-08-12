@@ -101,19 +101,22 @@ export default function BuildingPage({ params }: { params: { id: string } }) {
             </div>
           </div>
           <div className="py-12 flex flex-wrap">
-            {[...buildingData, ...buildingData, ...buildingData].map((review: BuildingReviewsData) => (
-              <div key={review.id} className="w-full pb-2 md:w-1/2 md:px-2 md:pb-4">
+            {buildingData.map((review: BuildingReviewsData) => (
+              <div
+                key={review.id}
+                className="w-full pb-2 md:w-1/2 md:px-2 md:pb-4"
+              >
                 <Card>
-                  <CardContent className="text-left pt-4">
+                  <CardContent className="pt-4">
                     <div className="flex justify-center items-center">
-                      <div className="w-1/2 text-sm flex flex-col text-center">
+                      <div className="w-1/2 text-sm flex flex-col">
                         <span className="font-semibold">
                           {review.apartment_quality}/5
                         </span>
                         <span className="font-semibold">Apartment Quality</span>
                       </div>
                       <div className="w-[1px] bg-white h-[30px] rounded-lg" />
-                      <div className="w-1/2 text-sm flex flex-col text-center">
+                      <div className="w-1/2 text-sm flex flex-col">
                         <span className="font-semibold">
                           {review.building_quality}/5
                         </span>
@@ -142,8 +145,12 @@ export default function BuildingPage({ params }: { params: { id: string } }) {
                       )}
                       {review.agency_experience && (
                         <div className="flex justify-between pb-1">
-                          <span className="font-semibold text-sm">Agency Experience</span>
-                          <span className="text-sm">{review.agency_experience}/5</span>
+                          <span className="font-semibold text-sm">
+                            Agency Experience
+                          </span>
+                          <span className="text-sm">
+                            {review.agency_experience}/5
+                          </span>
                         </div>
                       )}
                       <div className="pt-6 text-center">
