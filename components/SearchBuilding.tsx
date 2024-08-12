@@ -43,6 +43,7 @@ const SearchBuilding = ({ onResultSelect }: SearchBuildingProps) => {
     if (debouncedSearchText) {
       setSearching(true);
       searchBuildings(debouncedSearchText).then((results) => {
+        console.log(results);
         setSearchResults(results);
         setSearching(false);
       });
