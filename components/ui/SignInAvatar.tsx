@@ -7,7 +7,7 @@ import {
   PopoverTrigger,
   PopoverContent,
 } from "@/components/ui/Popover";
-import { createClientServer } from "@/lib/supabase";
+import { createClientServer } from "@/lib/supabase/server";
 
 const SignInAvatar = async () => {
   const supabase = createClientServer();
