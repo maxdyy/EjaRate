@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import type { ToastActionElement, ToastProps } from "@/components/ui/Toast";
-import { createClientBrowser } from "@/lib/supabase/client";
 
 export const useDebounce = (value: string, delay: number) => {
   const [debouncedValue, setDebouncedValue] = useState<string>(value);

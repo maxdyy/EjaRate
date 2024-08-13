@@ -6,9 +6,17 @@ import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Separator } from "@/components/ui/Separator";
+import {
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/Breadcrumb";
 import { BuildingReviewsData } from "@/lib/interfaces";
 import { getBuildingData } from "@/lib/services";
-import { formatBuildingName, intToAED } from "@/lib/utils";
+import { formatBuildingName, intToAED, average } from "@/lib/utils";
 
 export default function BuildingPage({ params }: { params: { id: string } }) {
   const [searching, setSearching] = useState<boolean>(true);
@@ -39,8 +47,8 @@ export default function BuildingPage({ params }: { params: { id: string } }) {
           apartmentTotal += review.apartment_quality || 0;
         });
 
-        setAverageReview(total / data.length);
-        setApartmentAverage(apartmentTotal / data.length);
+        setAverageReview(average(total, data.length));
+        setApartmentAverage(average(apartmentTotal, data.length));
       }
       setSearching(false);
     };
@@ -49,11 +57,25 @@ export default function BuildingPage({ params }: { params: { id: string } }) {
   }, [params.id]);
 
   return (
-    <main className="flex justify-center">
+    <div className="flex justify-center items-center flex-col">
       {searching && (
         <div className="pt-40 text-center">
           <p>Searching for reviews...</p>
         </div>
+      )}
+
+      {!searching && (
+        <Breadcrumb className="container max-w-screen-2xl pt-2">
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <Link href="/">Home</Link>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>{formatBuildingName(params.id)}</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
       )}
 
       {!buildingData && !searching && (
@@ -95,9 +117,13 @@ export default function BuildingPage({ params }: { params: { id: string } }) {
               </div>
             </div>
             <div className="pt-6">
-              <Button size="sm" className="w-full">
-                <Link href={`/review`}>Write a Review</Link>
-              </Button>
+              <Link
+                href={`/submit-review?name=${buildingName}&address=${buildingAddress}`}
+              >
+                <Button size="sm" className="w-full">
+                  Write a Review
+                </Button>
+              </Link>
             </div>
           </div>
           <div className="py-12 flex flex-wrap">
@@ -106,8 +132,8 @@ export default function BuildingPage({ params }: { params: { id: string } }) {
                 key={review.id}
                 className="w-full pb-2 md:w-1/2 md:px-2 md:pb-4"
               >
-                <Card>
-                  <CardContent className="pt-4">
+                <Card className="h-full">
+                  <CardContent className="pt-4 h-full flex flex-col">
                     <div className="flex justify-center items-center">
                       <div className="w-1/2 text-sm flex flex-col">
                         <span className="font-semibold">
@@ -153,11 +179,13 @@ export default function BuildingPage({ params }: { params: { id: string } }) {
                           </span>
                         </div>
                       )}
-                      <div className="pt-6 text-center">
+                    </div>
+                    <div className="pt-6 text-center mt-auto">
+                      <Link href={`/review/${review.id}`}>
                         <Button size="sm" className="w-full">
-                          <Link href={`/review/${review.id}`}>Read More</Link>
+                          Read More
                         </Button>
-                      </div>
+                      </Link>
                     </div>
                   </CardContent>
                 </Card>
@@ -166,6 +194,6 @@ export default function BuildingPage({ params }: { params: { id: string } }) {
           </div>
         </div>
       )}
-    </main>
+    </div>
   );
 }
