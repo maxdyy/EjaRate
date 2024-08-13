@@ -95,9 +95,11 @@ export default function BuildingPage({ params }: { params: { id: string } }) {
               </div>
             </div>
             <div className="pt-6">
-              <Button size="sm" className="w-full">
-                <Link href={`/review`}>Write a Review</Link>
-              </Button>
+              <Link href={`/review`}>
+                <Button size="sm" className="w-full">
+                  Write a Review
+                </Button>
+              </Link>
             </div>
           </div>
           <div className="py-12 flex flex-wrap">
@@ -106,8 +108,8 @@ export default function BuildingPage({ params }: { params: { id: string } }) {
                 key={review.id}
                 className="w-full pb-2 md:w-1/2 md:px-2 md:pb-4"
               >
-                <Card>
-                  <CardContent className="pt-4">
+                <Card className="h-full">
+                  <CardContent className="pt-4 h-full flex flex-col">
                     <div className="flex justify-center items-center">
                       <div className="w-1/2 text-sm flex flex-col">
                         <span className="font-semibold">
@@ -153,11 +155,13 @@ export default function BuildingPage({ params }: { params: { id: string } }) {
                           </span>
                         </div>
                       )}
-                      <div className="pt-6 text-center">
+                    </div>
+                    <div className="pt-6 text-center mt-auto">
+                      <Link href={`/review/${review.id}`}>
                         <Button size="sm" className="w-full">
-                          <Link href={`/review/${review.id}`}>Read More</Link>
+                          Read More
                         </Button>
-                      </div>
+                      </Link>
                     </div>
                   </CardContent>
                 </Card>
