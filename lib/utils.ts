@@ -28,3 +28,6 @@ export const psTimeStampToDate = (timestamp: string) => {
     day: "numeric",
   }).format(date);
 };
+
+export const average = (num: number, length: number) =>
+  Number((num / length).toFixed(1));
