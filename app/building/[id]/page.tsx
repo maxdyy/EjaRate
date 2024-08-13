@@ -68,7 +68,7 @@ export default function BuildingPage({ params }: { params: { id: string } }) {
         <Breadcrumb className="container max-w-screen-2xl pt-2">
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/">Home</BreadcrumbLink>
+              <Link href="/">Home</Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
@@ -117,7 +117,9 @@ export default function BuildingPage({ params }: { params: { id: string } }) {
               </div>
             </div>
             <div className="pt-6">
-              <Link href={`/review`}>
+              <Link
+                href={`/submit-review?name=${buildingName}&address=${buildingAddress}`}
+              >
                 <Button size="sm" className="w-full">
                   Write a Review
                 </Button>

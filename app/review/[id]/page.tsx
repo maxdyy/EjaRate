@@ -7,7 +7,6 @@ import {
   Breadcrumb,
   BreadcrumbList,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/Breadcrumb";
@@ -62,13 +61,13 @@ export default function ReviewPage({ params }: { params: { id: string } }) {
           <Breadcrumb className="container max-w-screen-2xl pt-2">
             <BreadcrumbList>
               <BreadcrumbItem>
-                <BreadcrumbLink href="/">Home</BreadcrumbLink>
+                <Link href="/">Home</Link>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbLink href={`/building/${reviewData.building_id}`}>
+                <Link href={`/building/${reviewData.building_id}`}>
                   {reviewData.building_name}
-                </BreadcrumbLink>
+                </Link>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>

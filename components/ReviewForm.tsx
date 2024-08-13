@@ -1,7 +1,16 @@
 "use client";
-import { useState, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
+import { useSearchParams } from "next/navigation";
 
 import { ReviewActionProps } from "@/app/submit-review/actions";
+import {
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/Breadcrumb";
 import { SearchBuilding } from "@/components/SearchBuilding";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
@@ -10,22 +19,30 @@ import { StateFullLabel } from "@/components/ui/Label";
 import { Button } from "@/components/ui/Button";
 
 import { useToast } from "@/lib/hooks";
+import Link from "next/link";
 
 interface ReviewFormProps {
   action: (data: ReviewActionProps) => void;
-  preselectedBuilding?: string;
 }
 
-const ReviewForm = ({
-  action,
-  preselectedBuilding,
-}: ReviewFormProps) => {
+const ReviewForm = ({ action }: ReviewFormProps) => {
   const { toast } = useToast();
+  const searchParams = useSearchParams();
 
   const [selectedBuilding, setSelectedBuilding] = useState<string | null>(null);
   const [selectedBuildingAddress, setSelectedBuildingAddress] = useState<
     string | null
   >(null);
+
+  useEffect(() => {
+    const buildingName = searchParams.get("name");
+    const buildingAddress = searchParams.get("address");
+
+    if (buildingName && buildingAddress) {
+      setSelectedBuilding(buildingName);
+      setSelectedBuildingAddress(buildingAddress);
+    }
+  }, [searchParams]);
 
   const handleSelectBuilding = useCallback(
     (building: string, address: string) => {
@@ -149,120 +166,154 @@ const ReviewForm = ({
   };
 
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        handleSubmit();
-      }}
-      className="flex flex-col justify-center items-center px-4"
-    >
-      {selectedBuilding && selectedBuildingAddress ? (
-        <div className="pt-20 max-w-[750px] w-full">
-          <h1 className="text-2xl font-semibold text-center">
-            {selectedBuilding}
-          </h1>
-          <p className="text-center">{selectedBuildingAddress}</p>
-          <div className="flex w-full pt-6">
-            <div className="w-1/2 pr-6">
-              <StateFullLabel hasError={apartmentNumberError}>
-                Apartment Number*
-              </StateFullLabel>
-              <Input
-                placeholder="Apartment Number"
-                onChange={onApartmentNumberChange}
+    <>
+      <Breadcrumb className="container max-w-screen-2xl pt-2">
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <Link href="/">Home</Link>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            {selectedBuilding && selectedBuildingAddress ? (
+              <BreadcrumbLink
+                className="cursor-pointer"
+                onClick={() => {
+                  setSelectedBuilding(null);
+                  setSelectedBuildingAddress(null);
+                }}
+              >
+                New Review
+              </BreadcrumbLink>
+            ) : (
+              <BreadcrumbPage>New Review</BreadcrumbPage>
+            )}
+          </BreadcrumbItem>
+          {selectedBuilding && selectedBuildingAddress && (
+            <>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbPage>{selectedBuilding}</BreadcrumbPage>
+              </BreadcrumbItem>
+            </>
+          )}
+        </BreadcrumbList>
+      </Breadcrumb>
+
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSubmit();
+        }}
+        className="flex flex-col justify-center items-center px-4"
+      >
+        {selectedBuilding && selectedBuildingAddress ? (
+          <div className="pt-20 max-w-[750px] w-full">
+            <h1 className="text-2xl font-semibold text-center">
+              {selectedBuilding}
+            </h1>
+            <p className="text-center">{selectedBuildingAddress}</p>
+            <div className="flex w-full pt-6">
+              <div className="w-1/2 pr-6">
+                <StateFullLabel hasError={apartmentNumberError}>
+                  Apartment Number*
+                </StateFullLabel>
+                <Input
+                  placeholder="Apartment Number"
+                  onChange={onApartmentNumberChange}
+                />
+              </div>
+              <div className="w-1/2 pl-6">
+                <StateFullLabel>Rent Amount</StateFullLabel>
+                <Input
+                  type="number"
+                  placeholder="Rent Amount AED/Year (Optional)"
+                  onChange={(e) => setRentAmount(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="pt-6 flex">
+              <div className="w-1/2 pr-6">
+                <ReviewToggle
+                  label="Building Quality*"
+                  subtitle="Overall quality of the building"
+                  onValueChange={onBuildingQualityChange}
+                  hasError={buildingQualityError}
+                />
+              </div>
+              <div className="w-1/2 pl-6">
+                <ReviewToggle
+                  label="Apartment Quality*"
+                  subtitle="Overall quality of the apartment"
+                  onValueChange={onApartmentQualityChange}
+                  hasError={apartmentQualityError}
+                />
+              </div>
+            </div>
+            <div className="pt-6 flex items-end">
+              <div className="w-1/2 pr-6">
+                <StateFullLabel>Agency Name</StateFullLabel>
+                <Input
+                  placeholder="Agency Name (Optional)"
+                  onChange={(e) => setAgencyName(e.target.value)}
+                />
+              </div>
+              <div className="w-1/2 pl-6">
+                <ReviewToggle
+                  label="Agency Experience"
+                  subtitle="Real estate agency services (Optional)"
+                  onValueChange={(val) => setAgencyExperience(val)}
+                />
+              </div>
+            </div>
+            <div className="flex w-full pt-6">
+              <div className="w-1/2 pr-6">
+                <StateFullLabel hasError={ejariContractNumberError}>
+                  Ejari Contract Number*
+                </StateFullLabel>
+                <Input
+                  placeholder="Ejari Contract Number"
+                  onChange={onEjariContractNumberChange}
+                />
+              </div>
+              <div className="w-1/2 pl-6">
+                <StateFullLabel hasError={dewaPremiseNumberError}>
+                  DEWA Premise Number*
+                </StateFullLabel>
+                <Input
+                  placeholder="DEWA Premise Number"
+                  onChange={onDewaPremiseNumberChange}
+                />
+              </div>
+            </div>
+            <p className="pt-2 text-sm text-gray-700">
+              To approve your Review, we need to verify your Ejari
+            </p>
+            <div className="w-full pt-6">
+              <StateFullLabel>Additional Notes</StateFullLabel>
+              <Textarea
+                placeholder="Additional Notes (Optional)"
+                onChange={(e) => setAdditionalNotes(e.target.value)}
               />
             </div>
-            <div className="w-1/2 pl-6">
-              <StateFullLabel>Rent Amount</StateFullLabel>
-              <Input
-                type="number"
-                placeholder="Rent Amount AED/Year (Optional)"
-                onChange={(e) => setRentAmount(e.target.value)}
-              />
+            <div className="pt-6">
+              <Button
+                className="w-full mt-6 cursor-pointer"
+                disabled={!isFormValid}
+              >
+                Submit Review
+              </Button>
             </div>
           </div>
-          <div className="pt-6 flex">
-            <div className="w-1/2 pr-6">
-              <ReviewToggle
-                label="Building Quality*"
-                subtitle="Overall quality of the building"
-                onValueChange={onBuildingQualityChange}
-                hasError={buildingQualityError}
-              />
-            </div>
-            <div className="w-1/2 pl-6">
-              <ReviewToggle
-                label="Apartment Quality*"
-                subtitle="Overall quality of the apartment"
-                onValueChange={onApartmentQualityChange}
-                hasError={apartmentQualityError}
-              />
-            </div>
+        ) : (
+          <div className="pt-32 lg:pt-64 w-full max-w-[580px]">
+            <h1 className="text pb-5 lg:text-xl text-center">
+              Search for a Building to Review
+            </h1>
+            <SearchBuilding onResultSelect={handleSelectBuilding} />
           </div>
-          <div className="pt-6 flex items-end">
-            <div className="w-1/2 pr-6">
-              <StateFullLabel>Agency Name</StateFullLabel>
-              <Input
-                placeholder="Agency Name (Optional)"
-                onChange={(e) => setAgencyName(e.target.value)}
-              />
-            </div>
-            <div className="w-1/2 pl-6">
-              <ReviewToggle
-                label="Agency Experience"
-                subtitle="Real estate agency services (Optional)"
-                onValueChange={(val) => setAgencyExperience(val)}
-              />
-            </div>
-          </div>
-          <div className="flex w-full pt-6">
-            <div className="w-1/2 pr-6">
-              <StateFullLabel hasError={ejariContractNumberError}>
-                Ejari Contract Number*
-              </StateFullLabel>
-              <Input
-                placeholder="Ejari Contract Number"
-                onChange={onEjariContractNumberChange}
-              />
-            </div>
-            <div className="w-1/2 pl-6">
-              <StateFullLabel hasError={dewaPremiseNumberError}>
-                DEWA Premise Number*
-              </StateFullLabel>
-              <Input
-                placeholder="DEWA Premise Number"
-                onChange={onDewaPremiseNumberChange}
-              />
-            </div>
-          </div>
-          <p className="pt-2 text-sm text-gray-700">
-            To approve your Review, we need to verify your Ejari
-          </p>
-          <div className="w-full pt-6">
-            <StateFullLabel>Additional Notes</StateFullLabel>
-            <Textarea
-              placeholder="Additional Notes (Optional)"
-              onChange={(e) => setAdditionalNotes(e.target.value)}
-            />
-          </div>
-          <div className="pt-6">
-            <Button
-              className="w-full mt-6 cursor-pointer"
-              disabled={!isFormValid}
-            >
-              Submit Review
-            </Button>
-          </div>
-        </div>
-      ) : (
-        <div className="pt-32 lg:pt-64 w-full max-w-[580px]">
-          <h1 className="text pb-5 lg:text-xl text-center">
-            Search for a Building to Review
-          </h1>
-          <SearchBuilding onResultSelect={handleSelectBuilding} />
-        </div>
-      )}
-    </form>
+        )}
+      </form>
+    </>
   );
 };
 
