@@ -6,6 +6,14 @@ import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Separator } from "@/components/ui/Separator";
+import {
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/Breadcrumb";
 import { BuildingReviewsData } from "@/lib/interfaces";
 import { getBuildingData } from "@/lib/services";
 import { formatBuildingName, intToAED, average } from "@/lib/utils";
@@ -49,11 +57,25 @@ export default function BuildingPage({ params }: { params: { id: string } }) {
   }, [params.id]);
 
   return (
-    <main className="flex justify-center">
+    <div className="flex justify-center items-center flex-col">
       {searching && (
         <div className="pt-40 text-center">
           <p>Searching for reviews...</p>
         </div>
+      )}
+
+      {!searching && (
+        <Breadcrumb className="container max-w-screen-2xl pt-2">
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>{formatBuildingName(params.id)}</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
       )}
 
       {!buildingData && !searching && (
@@ -170,6 +192,6 @@ export default function BuildingPage({ params }: { params: { id: string } }) {
           </div>
         </div>
       )}
-    </main>
+    </div>
   );
 }
