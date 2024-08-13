@@ -202,24 +202,3 @@ export const useToast = () => {
     dismiss: (toastId?: string) => dispatch({ type: "DISMISS_TOAST", toastId }),
   };
 };
-
-export const useUserData = () => {
-  const supabase = createClientBrowser();
-  const [email, setEmail] = useState<string | undefined>("");
-  const [name, setName] = useState<string | undefined>("");
-  const [avatar, setAvatar] = useState<string | undefined>("");
-  const [loading, setLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => {
-      if (data.user) {
-        setEmail(data.user.email);
-        setName(data.user.user_metadata.name);
-        setAvatar(data.user.user_metadata.avatar_url);
-        setLoading(false);
-      }
-    });
-  }, [supabase]);
-
-  return { email, name, avatar, loading };
-};
