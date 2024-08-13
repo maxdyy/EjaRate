@@ -18,8 +18,8 @@ export default function BuildingPage({ params }: { params: { id: string } }) {
   const [buildingName, setBuildingName] = useState<string | null>(null);
   const [buildingAddress, setBuildingAddress] = useState<string | null>(null);
   const [totalReviews, setTotalReviews] = useState<number | null>(null);
-  const [averageReview, setAverageReview] = useState<number | null>(null);
-  const [apartmentAverage, setApartmentAverage] = useState<number | null>(null);
+  const [averageReview, setAverageReview] = useState<string | null>(null);
+  const [apartmentAverage, setApartmentAverage] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchBuildingData = async () => {
@@ -39,8 +39,8 @@ export default function BuildingPage({ params }: { params: { id: string } }) {
           apartmentTotal += review.apartment_quality || 0;
         });
 
-        setAverageReview(total / data.length);
-        setApartmentAverage(apartmentTotal / data.length);
+        setAverageReview((total / data.length).toFixed(1));
+        setApartmentAverage((apartmentTotal / data.length).toFixed(1));
       }
       setSearching(false);
     };
