@@ -2,7 +2,7 @@
 import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 
-import { createClientServer } from "@/lib/supabase";
+import { createClientServer } from "@/lib/supabase/server";
 
 export const googleAuthAction = async () => {
   const origin = headers().get("origin") || "https://ejarate.org";

@@ -5,7 +5,7 @@ import { GoogleAuthButton } from "@/components/ui/GoogleAuthButton";
 import { Separator } from "@/components/ui/Separator";
 import { EmailAuth } from "@/components/ui/EmailAuth";
 
-import { createClientServer } from "@/lib/supabase";
+import { createClientServer } from "@/lib/supabase/server";
 import { googleAuthAction, emailAuthAction } from "@/app/signin/actions";
 
 export default async function SignInPage() {
