@@ -23,7 +23,7 @@ export const createClientServer = () => {
             // The `setAll` method was called from a Server Component.
             // This can be ignored if you have middleware refreshing
             // user sessions.
-            console.error("Error from setAll cookies Supabase:", e);
+            console.error("Error from setAll cookies Supabase server:", e);
           }
         },
       },
