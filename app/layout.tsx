@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import "./globals.css";
 
 // Components
+import { ProgressBarWrapper } from "@/components/ui/ProgressBarWrapper";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Toaster } from "@/components/ui/Toaster";
@@ -31,12 +32,14 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <Header />
-        <main className="min-h-[calc(100vh-128px)] lg:min-h-[calc(100vh-110px)]">
-          {children}
-        </main>
-        <Footer />
-        <Toaster />
+        <ProgressBarWrapper>
+          <Header />
+          <main className="min-h-[calc(100vh-128px)] lg:min-h-[calc(100vh-110px)]">
+            {children}
+          </main>
+          <Footer />
+          <Toaster />
+        </ProgressBarWrapper>
       </body>
     </html>
   );

@@ -137,6 +137,8 @@ const ReviewForm = ({ action }: ReviewFormProps) => {
     dewaPremiseNumberError,
   ]);
 
+  const [isFormSubmitting, setIsFormSubmitting] = useState<boolean>(false);
+
   const generateErrorToast = (message: string) => {
     toast({
       title: "Form Error",
@@ -146,7 +148,8 @@ const ReviewForm = ({ action }: ReviewFormProps) => {
   };
 
   const handleSubmit = async () => {
-    if (isFormValid) {
+    if (isFormValid && !isFormSubmitting) {
+      setIsFormSubmitting(true);
       action({
         selectedBuilding,
         selectedBuildingAddress,
@@ -160,8 +163,16 @@ const ReviewForm = ({ action }: ReviewFormProps) => {
         dewaPremiseNumber,
         additionalNotes,
       });
+
+      // We also want to set a timeout to release
+      // the form submission lock after 3 second for
+      // a better UX in case something goes wrong
+      setTimeout(() => {
+        setIsFormSubmitting(false);
+      }, 3000);
     } else {
       generateErrorToast("Please fill out all required fields");
+      setIsFormSubmitting(false);
     }
   };
 
@@ -298,9 +309,9 @@ const ReviewForm = ({ action }: ReviewFormProps) => {
             <div className="pt-6">
               <Button
                 className="w-full mt-6 cursor-pointer"
-                disabled={!isFormValid}
+                disabled={!isFormValid || isFormSubmitting}
               >
-                Submit Review
+                {isFormSubmitting ? "Submitting..." : "Submit Review"}
               </Button>
             </div>
           </div>

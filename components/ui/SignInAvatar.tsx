@@ -7,13 +7,14 @@ import {
   PopoverTrigger,
   PopoverContent,
 } from "@/components/ui/Popover";
-import { createClientServer } from "@/lib/supabase/server";
+import { createClientBrowser } from "@/lib/supabase/client";
 
 const SignInAvatar = async () => {
-  const supabase = createClientServer();
+  const supabase = createClientBrowser();
   const {
-    data: { user },
+    data,
   } = await supabase.auth.getUser();
+  const user = data.user;
   const email = user?.user_metadata?.email;
   const hasName = user?.user_metadata?.name;
   const nameArr = hasName ? user?.user_metadata?.name?.split(" ") : [];
