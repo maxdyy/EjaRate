@@ -26,6 +26,7 @@ export type Database = {
           id: string;
           is_approved: boolean | null;
           rent_amount: number | null;
+          user_id: string;
         };
         Insert: {
           additional_notes?: string | null;
@@ -43,6 +44,7 @@ export type Database = {
           id?: string;
           is_approved?: boolean | null;
           rent_amount?: number | null;
+          user_id: string;
         };
         Update: {
           additional_notes?: string | null;
@@ -60,6 +62,7 @@ export type Database = {
           id?: string;
           is_approved?: boolean | null;
           rent_amount?: number | null;
+          user_id: string;
         };
         Relationships: [];
       };

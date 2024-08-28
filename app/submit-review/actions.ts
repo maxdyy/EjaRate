@@ -2,6 +2,7 @@
 import { redirect } from "next/navigation";
 import { formatBuildingID } from "@/lib/utils";
 import { supabase } from "@/lib/supabase";
+import { createClientServer } from "@/lib/supabase/server";
 
 export interface ReviewActionProps {
   selectedBuilding: string | null;
@@ -30,6 +31,16 @@ export const submitReviewAction = async ({
   dewaPremiseNumber,
   additionalNotes,
 }: ReviewActionProps) => {
+  // We access the user data from the session on the server for security reasons
+  const supabaseAuth = createClientServer();
+  const { data } = await supabaseAuth.auth.getUser();
+
+  // Check if the user is logged in
+  if (!data.user) {
+    console.error("User not logged in");
+    return redirect("/signin");
+  }
+
   // Check if the form has all the data
   if (
     !selectedBuilding ||
@@ -63,7 +74,9 @@ export const submitReviewAction = async ({
     dewa_premise_number?: string | null
     ejari_contract_number?: string | null
     rent_amount?: number | null
+    user_id: string
   */
+
   const additional_notes = additionalNotes || null;
   const agency_experience = parseInt(agencyExperience || "0") || null;
   const agency_name = agencyName || null;
@@ -76,6 +89,23 @@ export const submitReviewAction = async ({
   const dewa_premise_number = dewaPremiseNumber || null;
   const ejari_contract_number = ejariContractNumber || null;
   const rent_amount = parseInt(rentAmount || "0") || null;
+  const user_id = data.user.id;
+
+  console.log("Review data", {
+    additional_notes,
+    agency_experience,
+    agency_name,
+    apartment_number,
+    apartment_quality,
+    building_address,
+    building_id,
+    building_name,
+    building_quality,
+    dewa_premise_number,
+    ejari_contract_number,
+    rent_amount,
+    user_id,
+  });
 
   // Now we will insert the review data into the database
   const { error } = await supabase.from("reviews").insert({
@@ -91,6 +121,7 @@ export const submitReviewAction = async ({
     dewa_premise_number,
     ejari_contract_number,
     rent_amount,
+    user_id,
   });
 
   // If there is an error, we will log the error and redirect to the error page

@@ -11,9 +11,7 @@ import { createClientBrowser } from "@/lib/supabase/client";
 
 const SignInAvatar = async () => {
   const supabase = createClientBrowser();
-  const {
-    data,
-  } = await supabase.auth.getUser();
+  const { data } = await supabase.auth.getUser();
   const user = data.user;
   const email = user?.user_metadata?.email;
   const hasName = user?.user_metadata?.name;
@@ -38,12 +36,20 @@ const SignInAvatar = async () => {
               {user.user_metadata.name}
             </span>
             <span className="pb-3">{user.email}</span>
-            <a
-              className="pl-1 underline hover:text-slate-900"
-              href="/api/signout"
-            >
-              Sign Out
-            </a>
+            <div className="flex justify-evenly w-full">
+              <Link
+                className="underline hover:text-slate-900"
+                href="/dashboard"
+              >
+                Dashboard
+              </Link>
+              <a
+                className="pl-1 underline text-red-800 hover:text-red-500"
+                href="/api/signout"
+              >
+                Sign Out
+              </a>
+            </div>
           </PopoverContent>
         </Popover>
       ) : (

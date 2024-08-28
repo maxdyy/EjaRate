@@ -29,7 +29,6 @@ export default function ReviewPage({ params }: { params: { id: string } }) {
       const data = await getReviewData(params.id);
       if (data && data.length > 0) {
         setReviewData(data[0]);
-        console.log(data[0]);
       }
       setSearching(false);
     };
