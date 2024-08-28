@@ -297,7 +297,18 @@ const ReviewForm = ({ action }: ReviewFormProps) => {
               </div>
             </div>
             <p className="pt-2 text-sm text-gray-700">
-              To approve your Review, we need to verify your Ejari
+              To approve your Review, we need to
+              <a
+                href="https://dubailand.gov.ae/en/eservices/download-ejari-certificate/"
+                target="_blank"
+                rel="noreferrer"
+                className="pl-1 underline hover:text-blue-600"
+              >
+                verify your Ejari
+              </a>
+              .
+              <br />
+              We will not publish this data on the Review.
             </p>
             <div className="w-full pt-6">
               <StateFullLabel>Additional Notes</StateFullLabel>
@@ -308,7 +319,7 @@ const ReviewForm = ({ action }: ReviewFormProps) => {
             </div>
             <div className="pt-6">
               <Button
-                className="w-full mt-6 cursor-pointer"
+                className="w-full mt-2 cursor-pointer"
                 disabled={!isFormValid || isFormSubmitting}
               >
                 {isFormSubmitting ? "Submitting..." : "Submit Review"}

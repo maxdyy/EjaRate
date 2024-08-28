@@ -14,18 +14,10 @@ export const createClientBrowser = () => {
         getAll() {
           return cookieStore.getAll();
         },
-        setAll(cookiesToSet) {
-          try {
-            console.log(
-              "No setting cookies on the client for security reasons:",
-              cookiesToSet
-            );
-          } catch (e) {
-            // The `setAll` method was called from a Server Component.
-            // This can be ignored if you have middleware refreshing
-            // user sessions.
-            console.error("Error from setAll cookies Supabase client:", e);
-          }
+        setAll() {
+          // This is a noop because we are not setting cookies in the browser
+          // for security reasons. The cookies are set by the Supabase Auth
+          // on the server side.
         },
       },
     }

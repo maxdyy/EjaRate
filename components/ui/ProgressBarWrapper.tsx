@@ -7,11 +7,7 @@ const ProgressBarWrapper = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       {children}
-      <AppProgressBar
-        color="#172554"
-        options={{ showSpinner: false }}
-        shallowRouting
-      />
+      <AppProgressBar color="#000" options={{ showSpinner: false }} />
     </>
   );
 };
