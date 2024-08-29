@@ -55,7 +55,7 @@ export const submitReviewAction = async ({
     console.error("Missing form data");
     const errorMessage =
       "#error_description=Error+submitting+review.+Please+try+again.";
-    return redirect(`/error$${errorMessage}`);
+    return redirect(`/error${errorMessage}`);
   }
 
   // Format the building ID, this ID is also used in the URL of the
