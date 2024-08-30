@@ -2,15 +2,18 @@
 // right within the component. This is a great way to keep the logic in one place.
 "use server";
 
+import Link from "next/link";
+import { BadgeCheck } from "lucide-react";
+
 import { supabase } from "@/lib/supabase";
 import { createClientBrowser } from "@/lib/supabase/client";
-import Link from "next/link";
+
+import { intToAED, formatBuildingID } from "@/lib/utils";
+
 import { Button } from "@/components/ui/Button";
-import { intToAED } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/Card";
 import { Separator } from "@/components/ui/Separator";
-import { BadgeCheck } from "lucide-react";
-import { ApproveToggleButton } from "./ApproveReview";
+import { ApproveToggleButton } from "@/components/ui/ApproveReview";
 
 const DashboardSummary = async () => {
   // Get the current user data
@@ -92,6 +95,19 @@ const DashboardSummary = async () => {
             >
               <Card className="h-full">
                 <CardContent className="pt-4 h-full flex flex-col">
+                  {review.building_name && (
+                    <Link
+                      className="font-semibold hover:underline"
+                      href={`/building/${formatBuildingID(
+                        review.building_name
+                      )}`}
+                    >
+                      {review.building_name}
+                    </Link>
+                  )}
+                  <div className="pt-4 pb-6">
+                    <Separator />
+                  </div>
                   <div className="flex justify-center items-center">
                     <div className="w-1/2 text-sm flex flex-col">
                       <span className="font-semibold">
@@ -137,6 +153,41 @@ const DashboardSummary = async () => {
                         </span>
                       </div>
                     )}
+                    <div className="pt-4 pb-6">
+                      <Separator />
+                    </div>
+                    <div>
+                      {review.ejari_contract_number && (
+                        <div className="flex justify-between pb-1">
+                          <span className="font-semibold text-sm">
+                            Ejari Contract Number
+                          </span>
+                          <span className="text-sm">
+                            {review.ejari_contract_number}
+                          </span>
+                        </div>
+                      )}
+                      {review.dewa_premise_number && (
+                        <div className="flex justify-between pb-1">
+                          <span className="font-semibold text-sm">
+                            DEWA Premise Number
+                          </span>
+                          <span className="text-sm">
+                            {review.dewa_premise_number}
+                          </span>
+                        </div>
+                      )}
+                      <div className="text-sm flex text-left">
+                        <a
+                          href="https://dubailand.gov.ae/en/eservices/download-ejari-certificate/"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="underline hover:text-blue-600"
+                        >
+                          Verify Ejari
+                        </a>
+                      </div>
+                    </div>
                     <div className="pt-4 pb-6">
                       <Separator />
                     </div>
