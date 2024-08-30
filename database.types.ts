@@ -26,7 +26,7 @@ export type Database = {
           id: string;
           is_approved: boolean | null;
           rent_amount: number | null;
-          user_id: string;
+          user_id: string | null;
         };
         Insert: {
           additional_notes?: string | null;
@@ -44,7 +44,7 @@ export type Database = {
           id?: string;
           is_approved?: boolean | null;
           rent_amount?: number | null;
-          user_id: string;
+          user_id?: string | null;
         };
         Update: {
           additional_notes?: string | null;
@@ -62,7 +62,28 @@ export type Database = {
           id?: string;
           is_approved?: boolean | null;
           rent_amount?: number | null;
-          user_id: string;
+          user_id?: string | null;
+        };
+        Relationships: [];
+      };
+      roles: {
+        Row: {
+          created_at: string;
+          id: number;
+          is_admin: boolean | null;
+          user_id: string | null;
+        };
+        Insert: {
+          created_at?: string;
+          id?: number;
+          is_admin?: boolean | null;
+          user_id?: string | null;
+        };
+        Update: {
+          created_at?: string;
+          id?: number;
+          is_admin?: boolean | null;
+          user_id?: string | null;
         };
         Relationships: [];
       };

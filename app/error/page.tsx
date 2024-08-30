@@ -1,5 +1,5 @@
 "use client";
-
+import { useState, useEffect } from "react";
 import { LinkButton } from "@/components/ui/LinkButton";
 
 export default function ErrorPage() {
@@ -9,8 +9,12 @@ export default function ErrorPage() {
   // I am getting the error_description and show it to the user
   // Note that this are not Search Params, but URL hash
 
-  const hash = location.hash;
-  const errorDescription = hash.split("error_description=")[1];
+  const [errorDescription, setErrorDescription] = useState<string | null>(null);
+  useEffect(() => {
+    const hash = location.hash;
+    const errorDescription = hash.split("error_description=")[1];
+    setErrorDescription(errorDescription);
+  }, []);
 
   return (
     <div className="flex flex-col justify-center items-center pt-32 lg:pt-64 px-4">

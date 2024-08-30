@@ -1,11 +1,28 @@
-import { LinkButton } from "@/components/ui/LinkButton";
+import Link from "next/link";
+import {
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbItem,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/Breadcrumb";
+import { DashboardSummary } from "@/components/ui/DashboardSummary";
 
 export default function DashboardPage() {
   return (
-    <div className="flex flex-col justify-center items-center pt-32 lg:pt-64 px-4">
-      <div className="w-full max-w-[400px] text-center">
-        <h1 className="text pb-5 lg:text-xl font-semibold ">Dashboard</h1>
-      </div>
+    <div className="flex justify-center items-center flex-col">
+      <Breadcrumb className="container max-w-screen-2xl pt-2">
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <Link href="/">Home</Link>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>Dashboard</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+      <DashboardSummary />
     </div>
   );
 }
