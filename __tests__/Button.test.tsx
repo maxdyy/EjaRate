@@ -3,23 +3,6 @@ import { render, screen } from "@testing-library/react";
 
 import { Button } from "@/components/ui/Button";
 
-/*
-
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : "button";
-    return (
-      <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
-        ref={ref}
-        {...props}
-      />
-    );
-  }
-);
-
-*/
-
 test("renders a button element with default variant", () => {
   render(<Button>Click me</Button>);
   const button = screen.getByRole("button", { name: "Click me" });
