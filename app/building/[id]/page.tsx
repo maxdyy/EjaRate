@@ -152,6 +152,16 @@ export default function BuildingPage({ params }: { params: { id: string } }) {
                       <Separator />
                     </div>
                     <div className="flex flex-col justify-between">
+                      {review.apartment_number && (
+                        <div className="flex justify-between pb-1">
+                          <span className="font-semibold text-sm">
+                            Apartment Number
+                          </span>
+                          <span className="text-sm">
+                            {review.apartment_number}
+                          </span>
+                        </div>
+                      )}
                       {review.rent_amount && (
                         <div className="flex justify-between pb-1">
                           <span className="font-semibold text-sm">

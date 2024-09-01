@@ -90,22 +90,7 @@ export const submitReviewAction = async ({
   const ejari_contract_number = ejariContractNumber || null;
   const rent_amount = parseInt(rentAmount || "0") || null;
   const user_id = data.user.id;
-
-  console.log("Review data", {
-    additional_notes,
-    agency_experience,
-    agency_name,
-    apartment_number,
-    apartment_quality,
-    building_address,
-    building_id,
-    building_name,
-    building_quality,
-    dewa_premise_number,
-    ejari_contract_number,
-    rent_amount,
-    user_id,
-  });
+  const user_email = data.user.email;
 
   // Now we will insert the review data into the database
   const { error } = await supabase.from("reviews").insert({
@@ -122,6 +107,7 @@ export const submitReviewAction = async ({
     ejari_contract_number,
     rent_amount,
     user_id,
+    user_email,
   });
 
   // If there is an error, we will log the error and redirect to the error page
