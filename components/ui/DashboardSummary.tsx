@@ -156,6 +156,34 @@ const DashboardSummary = async () => {
                     <div className="pt-4 pb-6">
                       <Separator />
                     </div>
+                    {review.additional_notes && (
+                      <>
+                        <div className="flex flex-col pb-1 text-left">
+                          <span className="font-semibold text-sm">
+                            Additional Notes
+                          </span>
+                          <span className="text-sm">
+                            {review.additional_notes}
+                          </span>
+                        </div>
+                        <div className="pt-4 pb-6">
+                          <Separator />
+                        </div>
+                      </>
+                    )}
+                    {review.user_email && (
+                      <>
+                        <div className="flex justify-between">
+                          <span className="font-semibold text-sm">Email</span>
+                          <span className="text-sm">{review.user_email}</span>
+                        </div>
+                        <div className="pt-4 pb-6">
+                          <Separator />
+                        </div>
+                      </>
+                    )}
+                  </div>
+                  <div className="mt-auto">
                     <div>
                       {review.ejari_contract_number && (
                         <div className="flex justify-between pb-1">
@@ -191,8 +219,6 @@ const DashboardSummary = async () => {
                     <div className="pt-4 pb-6">
                       <Separator />
                     </div>
-                  </div>
-                  <div className="mt-auto">
                     <div className="flex justify-between">
                       <span className="font-semibold text-sm">Status</span>
                       <div className="text-sm flex items-center justify-center">
@@ -212,7 +238,7 @@ const DashboardSummary = async () => {
                     </div>
                     {isAdmin && (
                       <>
-                        <div className="pt-4 pb-6">
+                        <div className="pt-4 pb-2">
                           <Separator />
                         </div>
                         <ApproveToggleButton

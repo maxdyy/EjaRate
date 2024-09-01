@@ -132,13 +132,12 @@ export default function ReviewPage({ params }: { params: { id: string } }) {
                         </span>
                       </div>
                     )}
-                    {reviewData.agency_name ||
-                      reviewData.agency_experience ||
-                      (reviewData.additional_notes && (
-                        <div className="py-4">
-                          <Separator />
-                        </div>
-                      ))}
+                    {(reviewData.agency_name ||
+                      reviewData.agency_experience) && (
+                      <div className="py-4">
+                        <Separator />
+                      </div>
+                    )}
                     {reviewData.agency_name && (
                       <div className="flex justify-between pb-1">
                         <span className="font-semibold text-sm">
