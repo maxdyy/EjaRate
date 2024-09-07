@@ -13,7 +13,8 @@ export async function GET(req: NextRequest) {
       .from("reviews")
       .select("*")
       .eq("building_id", searchID)
-      .eq("is_approved", true);
+      .eq("is_approved", true)
+      .order("created_at", { ascending: false });
 
     if (error) {
       console.error(error);
