@@ -14,6 +14,7 @@ export async function GET(req: NextRequest) {
       .select("*")
       .eq("building_id", searchID)
       .eq("is_approved", true)
+      .neq("id", `${Math.random() * Math.random()}`) // This is a fix to force dynamic responses
       .order("created_at", { ascending: false });
 
     if (error) {
