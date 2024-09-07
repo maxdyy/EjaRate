@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
       .select("*")
       .eq("id", searchID)
       .eq("is_approved", true)
-      .neq("id", `${Math.random() * Math.random()}`); // This is a fix to force dynamic responses
+      .neq("building_id", `${Math.random() * Math.random()}`); // This is a fix to force dynamic responses
 
     if (error) {
       console.error(error);
